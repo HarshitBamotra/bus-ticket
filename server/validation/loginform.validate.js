@@ -1,8 +1,3 @@
-
-
-const jwt = require('jsonwebtoken')
-require('bcryptjs');
-
 const loginformValidation = async(req, res, next)=>{
     // console.log(req.body);
     if(!req.body){

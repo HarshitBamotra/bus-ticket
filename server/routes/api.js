@@ -5,16 +5,14 @@ const busRouter = require('./bus.route');
 
 const api = express.Router();
 
+// /api/auth
 api.use('/auth', authRouter);
+
+// /api/profile
 api.use('/profile', profileRouter);
+
+// /api/bus
 api.use('/bus', busRouter);
-
-
-api.get('/', (req, res)=>{
-    res.json({
-        msg:"api route called"
-    });
-});
 
 
 module.exports = api;

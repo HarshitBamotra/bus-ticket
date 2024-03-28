@@ -28,7 +28,6 @@ const authController = async(req, res, next)=>{
             msg:"INTERNAL ERROR"
         });
     }
-    next();
 }
 
 module.exports = authController;

@@ -16,7 +16,8 @@ const userSchema = new mongoose.Schema({
         type:String
     },
     pastRides:[{
-        rideId: String
+        rideId: String,
+        date: String
     }]
 });
 

@@ -6,21 +6,10 @@ const registerController = require('../controllers/register.controller');
 
 const authRouter = express.Router();
 
-
+// /api/auth/login
 authRouter.post('/login', loginformValidation, loginController);
 
+// /api/auth/register
 authRouter.post('/register', registerformValidation, registerController);
-
-authRouter.get('/', (req, res)=>{
-    res.json({
-        msg: "auth route called"
-    });
-});
-
-authRouter.post('/', registerformValidation, (req, res)=>{
-    res.json({
-        msg:"post auth called"
-    });
-});
 
 module.exports = authRouter;

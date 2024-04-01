@@ -1,39 +1,29 @@
-import React from "react"
-import "./bus.css"
+import React, { useState } from "react";
+import "./bus.css";
+import "./addbus.css";
 
-import bus from "../../images/school-bus.png";
-const testBus = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.iwd3GKCS-siIfaTxopKv-wHaE9%26pid%3DApi&f=1&ipt=1a4d7a1db3474d3d54de39932b55b8ce55992530cc808adcd272e2fe28667fad&ipo=images"
+import uploadIcon from "../../images/upload.png";
+import UploadWidget from "../upload-widget/UploadWidget";
 
 
-const Bus = () => {
-    return (
-        <div className="bus">
-            <div className="bus-header">
-                <div>
-                    <div className="bus-header-icon">
-                        <img src={bus} alt=""></img>
-                    </div>
-                    <div className="bus-header-input">
-                        <div className="bus-tagline">Journey Made Simple, Tickets In A Click</div>
+const testBus = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.iwd3GKCS-siIfaTxopKv-wHaE9%26pid%3DApi&f=1&ipt=1a4d7a1db3474d3d54de39932b55b8ce55992530cc808adcd272e2fe28667fad&ipo=images";
 
-                        <div className="bus-input-container">
-                            <div>
-                                <input placeholder="From"></input>
-                            </div>
-                            <div>
-                                <input placeholder="To"></input>
-                            </div>
-                            <div>
-                                <button>search</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
+const AddBus = ()=>{
+
+    const [url, setUrl] = useState("");
+
+
+
+
+    return(
+        <div className="addbus">
             <div className="bus-container">
                 <div className="bus-modal-image">
-                    <img src={testBus} alt=""></img>
+                    {/* <img src={testBus} alt=""></img> */}
+                    {url === "" ? 
+                            <UploadWidget setUrl={setUrl}></UploadWidget> : <img src={url} alt=""></img>
+                    }
                 </div>
                 <div className="bus-modal-content">
                     
@@ -41,24 +31,24 @@ const Bus = () => {
                         <div className="bus-modal-content-left">
                             Name: 
                         </div>
-                        <div>
-                            NueGo
+                        <div className="bus-modal-content-right">
+                            <input></input>
                         </div>
                     </div>
                     <div className="bus-modal-src">
                         <div className="bus-modal-content-left">
                             Source:
                         </div>
-                        <div>
-                            Chandigarh
+                        <div className="bus-modal-content-right">
+                            <input></input>
                         </div>
                     </div>
                     <div className="bus-modal-departure">
                         <div className="bus-modal-content-left">
-                            Departure:
+                            Departure Time:
                         </div>
                         <div className="bus-modal-content-right">
-                            08:00
+                            <input></input>
                         </div>
                     </div>
                     <div className="bus-modal-dest">
@@ -66,15 +56,15 @@ const Bus = () => {
                             Destination: 
                         </div>
                         <div className="bus-modal-content-right">
-                            Delhi
+                            <input></input>
                         </div>
                     </div>
                     <div className="bus-modal-arrival">
                         <div className="bus-modal-content-left">
-                            Arrival: 
+                            Arrival Time: 
                         </div>
                         <div className="bus-modal-content-right">
-                            19:00
+                            <input></input>
                         </div>
                     </div>
                     <div className="bus-modal-seats">
@@ -82,7 +72,7 @@ const Bus = () => {
                             Available Seats: 
                         </div>
                         <div className="bus-modal-content-right">
-                            37
+                            <input></input>
                         </div>
                     </div>
                     <div className="bus-modal-price">
@@ -90,7 +80,7 @@ const Bus = () => {
                             Price: 
                         </div>
                         <div className="bus-modal-content-right">
-                            650.00
+                            <input></input>
                         </div>
                     </div>
                     <div className="add-ticket">
@@ -106,8 +96,9 @@ const Bus = () => {
                     </div>
                 </div>
             </div>
+
         </div>
     )
 }
 
-export default Bus;
+export default AddBus;

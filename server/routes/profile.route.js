@@ -12,10 +12,6 @@ profileRouter.get('/pastrides', authController, (req, res)=>{
 
 
 
-profileRouter.get('/', authController,(req, res)=>{
-    res.json({
-        msg:"profile route called"
-    });
-});
+profileRouter.get('/', authController);
 
 module.exports = profileRouter;

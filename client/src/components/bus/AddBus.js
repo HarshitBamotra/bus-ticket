@@ -1,20 +1,105 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./bus.css";
 import "./addbus.css";
-
+import {useCookies} from "react-cookie";
+import { useNavigate } from "react-router-dom";
 import uploadIcon from "../../images/upload.png";
 import UploadWidget from "../upload-widget/UploadWidget";
-
+import axios from "axios";
 
 const testBus = "https://external-content.duckduckgo.com/iu/?u=https%3A%2F%2Ftse1.mm.bing.net%2Fth%3Fid%3DOIP.iwd3GKCS-siIfaTxopKv-wHaE9%26pid%3DApi&f=1&ipt=1a4d7a1db3474d3d54de39932b55b8ce55992530cc808adcd272e2fe28667fad&ipo=images";
 
 
 const AddBus = ()=>{
+    const [user, setUser] = useState({});
+    const navigate = useNavigate();
+    const [cookies, removeCookie] = useCookies([]);
+
+    useEffect(()=>{
+        const verifyCookie = async ()=>{
+            if(!cookies.token || cookies.token==='undefined'){
+                navigate("/login");
+            }
+            const data = await axios.get("http://localhost:3001/api/profile",{withCredentials:true});
+            console.log(data);
+            if(data.data.status!==200){
+                removeCookie("token");
+                navigate("/login")
+            }
+            setUser({
+                name: data?.data?.user.name,
+                email: data?.data?.user.email,
+                mobile: data?.data?.user.mobile
+            });
+
+            if(data.data.user.email !=="harshitbamotra.01@gmail.com"){
+                alert("Unauthorized");
+                navigate("/");
+            }
+        }
+        verifyCookie();
+    },[cookies, navigate, removeCookie]);
+
+
 
     const [url, setUrl] = useState("");
 
+    const [name, setName] = useState("");
+    const [source, setSource] = useState("");
+    const [destination, setDestination] = useState("");
+    const [departure, setDeparture] = useState("");
+    const [arrival, setArrival] = useState("");
+    const [seats, setSeats] = useState("");
+    const [price, setPrice] = useState("");
 
+    const handleName = (e)=>{
+        setName(e.target.value);
+    }
+    const handleSource = (e)=>{
+        setSource(e.target.value);
+    }
+    const handleDestination = (e)=>{
+        setDestination(e.target.value);
+    }
+    const handleArrival = (e)=>{
+        setArrival(e.target.value);
+    }
+    const handleDeparture = (e)=>{
+        setDeparture(e.target.value);
+    }
+    const handlePrice = (e)=>{
+        setPrice(e.target.value);
+    }
+    const handleSeats = (e)=>{
+        setSeats(e.target.value);
+    }
+    
+    const handleSubmit = async ()=>{
+        if(!name || !url || !source || !destination || !arrival || !departure || !price || !seats){
+            alert("All fields are necessary");
+            return;
+        }
 
+        const submitObject = {
+            name,
+            source: source.toLowerCase(),
+            destination: destination.toLowerCase(),
+            price,
+            seats,
+            startTime: departure,
+            endTime: arrival,
+            displayImage: url.toString()
+        }
+
+        try {
+            const data = await axios.post("http://localhost:3001/api/bus", submitObject);
+            console.log(data);
+            navigate("/");
+        } catch (error) {
+            
+        }
+
+    }
 
     return(
         <div className="addbus">
@@ -32,7 +117,7 @@ const AddBus = ()=>{
                             Name: 
                         </div>
                         <div className="bus-modal-content-right">
-                            <input></input>
+                            <input onChange={handleName}></input>
                         </div>
                     </div>
                     <div className="bus-modal-src">
@@ -40,7 +125,7 @@ const AddBus = ()=>{
                             Source:
                         </div>
                         <div className="bus-modal-content-right">
-                            <input></input>
+                            <input onChange={handleSource}></input>
                         </div>
                     </div>
                     <div className="bus-modal-departure">
@@ -48,7 +133,7 @@ const AddBus = ()=>{
                             Departure Time:
                         </div>
                         <div className="bus-modal-content-right">
-                            <input></input>
+                            <input onChange={handleDeparture}></input>
                         </div>
                     </div>
                     <div className="bus-modal-dest">
@@ -56,7 +141,7 @@ const AddBus = ()=>{
                             Destination: 
                         </div>
                         <div className="bus-modal-content-right">
-                            <input></input>
+                            <input onChange={handleDestination}></input>
                         </div>
                     </div>
                     <div className="bus-modal-arrival">
@@ -64,7 +149,7 @@ const AddBus = ()=>{
                             Arrival Time: 
                         </div>
                         <div className="bus-modal-content-right">
-                            <input></input>
+                            <input onChange={handleArrival}></input>
                         </div>
                     </div>
                     <div className="bus-modal-seats">
@@ -72,7 +157,7 @@ const AddBus = ()=>{
                             Available Seats: 
                         </div>
                         <div className="bus-modal-content-right">
-                            <input></input>
+                            <input onChange={handleSeats}></input>
                         </div>
                     </div>
                     <div className="bus-modal-price">
@@ -80,17 +165,12 @@ const AddBus = ()=>{
                             Price: 
                         </div>
                         <div className="bus-modal-content-right">
-                            <input></input>
+                            <input onChange={handlePrice}></input>
                         </div>
                     </div>
                     <div className="add-ticket">
                         <div>
-                            <button>-</button>
-                            <div>03</div>
-                            <button>+</button>
-                        </div>
-                        <div>
-                            <button>BUY</button>
+                            <button onClick={handleSubmit}> List Bus</button>
                         </div>
                         
                     </div>

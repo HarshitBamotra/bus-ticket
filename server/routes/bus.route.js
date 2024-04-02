@@ -1,20 +1,14 @@
 const express = require('express');
 const busFormValidation = require('../validation/addBusForm.validate');
-const busController = require('../controllers/busForm.controller');
+const {busController} = require('../controllers/busForm.controller');
+const {allBusController} = require("../controllers/busForm.controller");
+const {busWIthIdController} = require("../controllers/busForm.controller");
 
 const busRouter = express.Router();
 
-busRouter.get('/:id', (req, res)=>{
-    res.json({
-        msg: "bus route with id called"
-    })
-})
+busRouter.get('/:id', busWIthIdController);
 
-busRouter.get('/', (req, res)=>{
-    res.json({
-        msg:"bus route called"
-    });
-});
+busRouter.get('/', allBusController);
 
 busRouter.post('/', busFormValidation, busController);
 

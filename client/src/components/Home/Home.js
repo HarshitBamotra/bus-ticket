@@ -1,12 +1,36 @@
-import React from "react"
+import React, { useState } from "react"
 import "./Home.css"
 import bus from "../../images/school-bus.png"
 import delhi from "../../images/delhi.png"
 import jaipur from "../../images/jaipur.png"
 import agra from "../../images/agra.png"
 import mumbai from "../../images/mumbai.png"
+import { useNavigate } from "react-router-dom";
 
 const Home = () => {
+
+    const navigate = useNavigate();
+
+    const [source, setSource] = useState("");
+    const [destination, setDestination] = useState("");
+
+    const handleOnChangeSource = (e)=>{
+        setSource(e.target.value);
+    }
+    const handleOnChangeDestination = (e)=>{
+        setDestination(e.target.value);
+    }
+
+    const handleSubmit = ()=>{
+        if(!source || !destination){
+            alert("ALL FIELDS ARE NECESSARY");
+            return;
+        }
+
+        const params = `?source=${source.toLowerCase()}&destination=${destination.toLocaleLowerCase()}`;
+        navigate(`/bus${params}`);
+    }
+
 
     return (
         <div className="home">
@@ -20,13 +44,13 @@ const Home = () => {
 
                         <div className="home-input-container">
                             <div>
-                                <input placeholder="From"></input>
+                                <input placeholder="From" onChange={handleOnChangeSource}></input>
                             </div>
                             <div>
-                                <input placeholder="To"></input>
+                                <input placeholder="To" onChange={handleOnChangeDestination}></input>
                             </div>
                             <div>
-                                <button>search</button>
+                                <button onClick={handleSubmit}>search</button>
                             </div>
                         </div>
                     </div>

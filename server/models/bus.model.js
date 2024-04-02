@@ -30,7 +30,10 @@ const busSchema = new mongoose.Schema({
         type:String,
         required: true
     },
-
+    seats: {
+        type: Number,
+        required: true
+    }
 });
 
 const busModel = new mongoose.model('bus', busSchema);
